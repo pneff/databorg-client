@@ -1,0 +1,7 @@
+SELECT * WHERE {
+  ?s ?p ?o
+}
+
+# replace ?s with literal "test"
+
+###variables: {"s": "test"}

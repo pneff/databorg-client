@@ -1,0 +1,509 @@
+// Vitest Snapshot v1
+
+exports[`sparql-replace > should substitute ./test/fixtures/queries/inserts/insert-data.sparql 1`] = `
+"PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+INSERT DATA {
+  <http://example.org/Test> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> owl:Class;
+    rdfs:label \\"test\\".
+}"
+`;
+
+exports[`sparql-replace > should substitute ./test/fixtures/queries/sparql/all.sparql 1`] = `"SELECT * WHERE { \\"test\\" ?p ?o. }"`;
+
+exports[`sparql-replace > should substitute ./test/fixtures/queries/sparql/artists-ghent.sparql 1`] = `
+"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>
+CONSTRUCT {
+  ?person <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> dbpedia-owl:Artist.
+  ?person rdfs:label \\"Test\\".
+  ?person dbpedia-owl:birthPlace ?city.
+}
+WHERE {
+  ?person <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> dbpedia-owl:Artist;
+    rdfs:label \\"Test\\";
+    dbpedia-owl:birthPlace ?city.
+  ?city rdfs:label ?cityName, \\"Ghent\\"@en;
+    dbpedia-owl:country ?country.
+  ?country rdfs:label \\"Belgium\\"@en.
+}"
+`;
+
+exports[`sparql-replace > should substitute ./test/fixtures/queries/sparql/ask-in-anonymous-node.sparql 1`] = `
+"BASE <ex:>
+ASK WHERE { _:g_0 <ex:> <http://example.org>. }"
+`;
+
+exports[`sparql-replace > should substitute ./test/fixtures/queries/sparql/blanks.sparql 1`] = `
+"BASE <ex:>
+CONSTRUCT {
+  ?s0 ?p0 _:g_2.
+  _:g_2 <ex:a0> _:g_1.
+  _:g_1 <ex:b0> <ex:c0>.
+  _:g_4 ?p0 ?o0.
+  _:g_4 <ex:a0> _:g_3.
+  _:g_3 <ex:b0> <ex:c0>.
+}
+WHERE {
+  ?s1 ?p1 _:g_5, <ex:a1>;
+    ?q1 <ex:b1>, <ex:c1>.
+  _:g_6 ?p2 ?o2.
+  ?s3 ?p3 _:g_7.
+  _:g_7 <ex:a3> <ex:b3>.
+  ?s4 ?p4 _:g_8.
+  _:g_8 <ex:a4> <ex:b4>;
+    <ex:c4> <ex:d4>, <ex:e4>.
+  ?s5 ?p5 _:g_10.
+  _:g_10 <ex:a5> _:g_9.
+  _:g_9 <ex:b5> <ex:c5>.
+  _:g_12 ?p6 <http://example.org>;
+    <ex:a6> _:g_11.
+  _:g_11 <ex:b6> <ex:c6>.
+  _:g_13 <ex:a7> <ex:b7>;
+    <ex:c7> <ex:d7>, <ex:e7>.
+}"
+`;
+
+exports[`sparql-replace > should substitute ./test/fixtures/queries/sparql/bsbm3.sparql 1`] = `
+"PREFIX bsbm-inst: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/>
+PREFIX bsbm: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?product ?label WHERE {
+  ?product rdfs:label ?label.
+  OPTIONAL {
+    ?product bsbm:productFeature bsbm-inst:ProductFeature1043;
+      rdfs:label \\"test\\".
+  }
+  FILTER(!(BOUND(?testVar)))
+}
+ORDER BY (?label)
+LIMIT 10"
+`;
+
+exports[`sparql-replace > should substitute ./test/fixtures/queries/sparql/bsbm4.sparql 1`] = `
+"PREFIX bsbm-inst: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/>
+PREFIX bsbm: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT DISTINCT ?product ?label ?propertyTextual WHERE {
+  {
+    ?product rdfs:label ?label;
+      rdf:type bsbm-inst:ProductType140;
+      bsbm:productFeature bsbm-inst:ProductFeature4373, bsbm-inst:ProductFeature1475;
+      bsbm:productPropertyTextual1 ?propertyTextual;
+      bsbm:productPropertyNumeric1 <http://example.org>.
+    FILTER(?p1 > 160 )
+  }
+  UNION
+  {
+    ?product rdfs:label ?label;
+      rdf:type bsbm-inst:ProductType140;
+      bsbm:productFeature bsbm-inst:ProductFeature4373, bsbm-inst:ProductFeature4372;
+      bsbm:productPropertyTextual1 ?propertyTextual;
+      bsbm:productPropertyNumeric2 \\"123\\".
+    FILTER(?p2 > 77 )
+  }
+}
+ORDER BY (?label)
+OFFSET 5
+LIMIT 10"
+`;
+
+exports[`sparql-replace > should substitute ./test/fixtures/queries/sparql/bsbm8.sparql 1`] = `
+"PREFIX bsbm: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX rev: <http://purl.org/stuff/rev#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+SELECT ?title ?text ?reviewDate ?reviewer ?reviewerName ?rating1 ?rating2 ?rating3 ?rating4 WHERE {
+  ?review bsbm:reviewFor <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer16/Product783>;
+    dc:title ?title;
+    rev:text ?text.
+  FILTER(LANGMATCHES(LANG(?text), \\"EN\\"))
+  ?review bsbm:reviewDate ?reviewDate;
+    rev:reviewer ?reviewer.
+  ?reviewer foaf:name ?reviewerName.
+  OPTIONAL { ?review bsbm:rating1 ?rating1. }
+  OPTIONAL { ?review bsbm:rating2 ?rating2. }
+  OPTIONAL { ?review bsbm:rating3 ?rating3. }
+  OPTIONAL { ?review bsbm:rating4 \\"123\\". }
+}
+ORDER BY DESC (?reviewDate)
+LIMIT 20"
+`;
+
+exports[`sparql-replace > should substitute ./test/fixtures/queries/sparql/construct-extra-semicolon.sparql 1`] = `
+"CONSTRUCT {
+  ?s <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://example.org/ExampleThing>.
+  ?s <http://example.org/hasvalue> \\"value\\".
+  ?s ?p <http://example.org>.
+}
+WHERE { ?s ?p <http://example.org>. }"
+`;
+
+exports[`sparql-replace > should substitute ./test/fixtures/queries/sparql/fedbench-cd1.sparql 1`] = `
+"SELECT ?predicate ?object WHERE {
+  { <http://dbpedia.org/resource/Barack_Obama> ?predicate <http://example.org>. }
+  UNION
+  {
+    ?subject <http://www.w3.org/2002/07/owl#sameAs> <http://dbpedia.org/resource/Barack_Obama>;
+      ?predicate <http://example.org>.
+  }
+}"
+`;
+
+exports[`sparql-replace > should substitute ./test/fixtures/queries/sparql/inverse-paths-anonymous-node.sparql 1`] = `
+"PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT * WHERE {
+  ?movie <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> dbpedia-owl:Film;
+    dbpedia-owl:starring _:g_14.
+  _:g_14 rdfs:label \\"Brad Pitt\\"@en;
+    ^dbpedia-owl:starring <http://example.org>.
+}"
+`;
+
+exports[`sparql-replace > should substitute ./test/fixtures/queries/sparql/lists.sparql 1`] = `
+"BASE <ex:>
+CONSTRUCT {
+  ?s0 ?p0 _:g_17.
+  _:g_17 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <ex:a0>.
+  _:g_17 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:g_18.
+  _:g_18 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> _:g_15.
+  _:g_18 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.
+  _:g_15 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <ex:b0>.
+  _:g_15 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:g_16.
+  _:g_16 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <ex:c0>.
+  _:g_16 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.
+  _:g_21 ?p0 ?o0.
+  _:g_21 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <ex:a0>.
+  _:g_21 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:g_22.
+  _:g_22 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> _:g_19.
+  _:g_22 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.
+  _:g_19 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <ex:b0>.
+  _:g_19 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:g_20.
+  _:g_20 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <ex:c0>.
+  _:g_20 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.
+}
+WHERE {
+  ?s1 ?p1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>, <ex:a1>.
+  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> ?p2 ?o2.
+  ?s3 ?p3 _:g_23.
+  _:g_23 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <ex:a3>;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.
+  ?s4 ?p4 _:g_24.
+  _:g_24 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <ex:a4>;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:g_25.
+  _:g_25 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <ex:b4>;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:g_26.
+  _:g_26 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <ex:c4>;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.
+  ?s5 ?p5 _:g_29.
+  _:g_29 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <ex:a5>;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:g_30.
+  _:g_30 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> _:g_27;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.
+  _:g_27 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <ex:b5>;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:g_28.
+  _:g_28 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <ex:c5>;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.
+  _:g_33 ?p6 <http://example.org>;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <ex:a6>;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:g_34.
+  _:g_34 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> _:g_31;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.
+  _:g_31 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <ex:b6>;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:g_32.
+  _:g_32 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <ex:c6>;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.
+  _:g_35 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <ex:a7>;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:g_36.
+  _:g_36 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <ex:b7>;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.
+  ?s8 ?p8 _:g_38.
+  _:g_38 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> _:g_37;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.
+  _:g_37 <ex:a8> <ex:b8>;
+    <ex:c8> <ex:d8>, <ex:e8>.
+}"
+`;
+
+exports[`sparql-replace > should substitute ./test/fixtures/queries/sparql/optional.sparql 1`] = `
+"SELECT ?p ?c ?d WHERE {
+  ?p <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>.
+  OPTIONAL { ?p <http://dbpedia.org/ontology/deathPlace> <http://example.org>. }
+  ?p <http://dbpedia.org/ontology/birthPlace> ?c.
+  ?c <http://xmlns.com/foaf/0.1/name> \\"York\\"@en.
+}"
+`;
+
+exports[`sparql-replace > should substitute ./test/fixtures/queries/sparql/optional-subquery.sparql 1`] = `
+"SELECT * WHERE {
+  {  }
+  OPTIONAL { SELECT * WHERE { ?s ?p <http://example.org>. } }
+}"
+`;
+
+exports[`sparql-replace > should substitute ./test/fixtures/queries/sparql/sparql-5-2b.sparql 1`] = `
+"PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+SELECT ?name ?mbox WHERE {
+  { ?x foaf:name ?name. }
+  { ?x foaf:mbox <http://example.org>. }
+}"
+`;
+
+exports[`sparql-replace > should substitute ./test/fixtures/queries/sparql/sparql-6-1.sparql 1`] = `
+"PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+SELECT ?name ?mbox WHERE {
+  ?x foaf:name ?name.
+  OPTIONAL { ?x foaf:mbox <http://example.org>. }
+}"
+`;
+
+exports[`sparql-replace > should substitute ./test/fixtures/queries/sparql/sparql-7a.sparql 1`] = `
+"PREFIX dc10: <http://purl.org/dc/elements/1.0/>
+PREFIX dc11: <http://purl.org/dc/elements/1.1/>
+SELECT ?title WHERE {
+  { ?book dc10:title \\"test\\". }
+  UNION
+  { ?book dc11:title \\"test\\". }
+}"
+`;
+
+exports[`sparql-replace > should substitute ./test/fixtures/queries/sparql/sparql-7c.sparql 1`] = `
+"PREFIX dc10: <http://purl.org/dc/elements/1.0/>
+PREFIX dc11: <http://purl.org/dc/elements/1.1/>
+SELECT ?title ?author WHERE {
+  {
+    ?book dc10:title ?title;
+      dc10:creator <http://example.org>.
+  }
+  UNION
+  {
+    ?book dc11:title ?title;
+      dc11:creator <http://example.org>.
+  }
+}"
+`;
+
+exports[`sparql-replace > should substitute ./test/fixtures/queries/sparql/sparql-8-2.sparql 1`] = `
+"PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+SELECT DISTINCT ?s WHERE {
+  <http://example.org> ?p ?o.
+  MINUS { <http://example.org> foaf:givenName \\"Bob\\". }
+}"
+`;
+
+exports[`sparql-replace > should substitute ./test/fixtures/queries/sparql/sparql-8-3-3b.sparql 1`] = `
+"PREFIX : <http://example/>
+SELECT * WHERE {
+  ?x :p ?n.
+  MINUS {
+    ?x :q <http://example.org>.
+    FILTER(?n = ?m)
+  }
+}"
+`;
+
+exports[`sparql-replace > should substitute ./test/fixtures/queries/sparql/sparql-9-2b.sparql 1`] = `
+"PREFIX : <http://example/>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT * WHERE { :book1 (dc:title|rdfs:label) \\"example\\". }"
+`;
+
+exports[`sparql-replace > should substitute ./test/fixtures/queries/sparql/sparql-9-2e.sparql 1`] = `
+"PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+SELECT ?x ?name WHERE {
+  ?x foaf:mbox <mailto:alice@example>;
+    foaf:knows _:g_41.
+  _:g_41 foaf:knows _:g_40.
+  _:g_40 foaf:name \\"Test\\".
+}"
+`;
+
+exports[`sparql-replace > should substitute ./test/fixtures/queries/sparql/sparql-10-1a.sparql 1`] = `
+"PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX ns: <http://example.org/ns#>
+SELECT ?title ?price WHERE {
+  ?x ns:price ?p;
+    ns:discount \\"123\\".
+  BIND(?p * (1  - \\"123\\") AS ?price)
+  FILTER(?price < 20 )
+  ?x dc:title ?title.
+}"
+`;
+
+exports[`sparql-replace > should substitute ./test/fixtures/queries/sparql/sparql-12.sparql 1`] = `
+"PREFIX : <http://people.example/>
+SELECT ?y ?minName WHERE {
+  :alice :knows ?y.
+  {
+    SELECT ?y (MIN(?name) AS ?minName) WHERE { ?y :name \\"test\\". }
+    GROUP BY ?y
+  }
+}"
+`;
+
+exports[`sparql-replace > should substitute ./test/fixtures/queries/sparql/sparql-13-2-3.sparql 1`] = `
+"PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+SELECT ?who ?g ?mbox FROM <http://example.org/dft.ttl>
+FROM NAMED <http://example.org/alice>
+FROM NAMED <http://example.org/bob>
+WHERE {
+  ?g dc:publisher ?who.
+  GRAPH ?g { ?x foaf:mbox <http://example.org>. }
+}"
+`;
+
+exports[`sparql-replace > should substitute ./test/fixtures/queries/sparql/sparql-13-3-3.sparql 1`] = `
+"PREFIX data: <http://example.org/foaf/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?mbox ?nick ?ppd FROM NAMED data:aliceFoaf
+FROM NAMED data:bobFoaf
+WHERE {
+  GRAPH data:aliceFoaf {
+    ?alice foaf:mbox <mailto:alice@work.example>;
+      foaf:knows ?whom.
+    ?whom foaf:mbox <http://example.org>;
+      rdfs:seeAlso ?ppd.
+    ?ppd <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> foaf:PersonalProfileDocument.
+  }
+  GRAPH ?ppd {
+    ?w foaf:mbox <http://example.org>;
+      foaf:nick ?nick.
+  }
+}"
+`;
+
+exports[`sparql-replace > should substitute ./test/fixtures/queries/sparql/sparql-18-a.sparql 1`] = `
+"PREFIX dbpedia-owl: <http://dbpedia.org/owl/#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?movie WHERE {
+  ?movie <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> dbpedia-owl:Film;
+    dbpedia-owl:starring _:g_39.
+  _:g_39 rdfs:label \\"Brad Pitt\\"@en;
+    ^dbpedia-owl:starring <http://example.org>.
+}"
+`;
+
+exports[`sparql-replace > should substitute ./test/fixtures/queries/sparql/sparql-fed-2-1.sparql 1`] = `
+"PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+SELECT ?name FROM <http://example.org/myfoaf.rdf>
+WHERE {
+  <http://example.org/myfoaf/I> foaf:knows ?person.
+  SERVICE <http://people.example.org/sparql> { ?person foaf:name \\"test\\". }
+}"
+`;
+
+exports[`sparql-replace > should substitute ./test/fixtures/queries/sparql/sparql-fed-2-2.sparql 1`] = `
+"PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+SELECT ?person ?interest ?known WHERE {
+  SERVICE <http://people.example.org/sparql> {
+    ?person foaf:name ?name.
+    OPTIONAL {
+      ?person foaf:interest ?interest.
+      SERVICE <http://people2.example.org/sparql> { ?person foaf:knows \\"test\\". }
+    }
+  }
+}"
+`;
+
+exports[`sparql-replace > should substitute ./test/fixtures/queries/sparql/sparql-update-3-1-3-1a.sparql 1`] = `
+"PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+DELETE { ?book ?p <http://example.org>. }
+WHERE {
+  ?book dc:date ?date.
+  FILTER(?date > \\"1970-01-01T00:00:00-02:00\\"^^xsd:dateTime)
+  ?book ?p <http://example.org>.
+}"
+`;
+
+exports[`sparql-replace > should substitute ./test/fixtures/queries/sparql/sparql-update-3-1-3-2a.sparql 1`] = `
+"PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+INSERT { GRAPH <http://example/bookStore2> { ?book ?p <http://example.org>. } }
+WHERE {
+  GRAPH <http://example/bookStore> {
+    ?book dc:date ?date.
+    FILTER(?date > \\"1970-01-01T00:00:00-02:00\\"^^xsd:dateTime)
+    ?book ?p <http://example.org>.
+  }
+}"
+`;
+
+exports[`sparql-replace > should substitute ./test/fixtures/queries/sparql/sparql-update-3-1-3-2b.sparql 1`] = `
+"PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+INSERT {
+  GRAPH <http://example/addresses> {
+    ?person foaf:name ?name.
+    ?person foaf:mbox \\"test@mail.com\\".
+  }
+}
+WHERE {
+  GRAPH <http://example/people> {
+    ?person foaf:name ?name.
+    OPTIONAL { ?person foaf:mbox \\"test@mail.com\\". }
+  }
+}"
+`;
+
+exports[`sparql-replace > should substitute ./test/fixtures/queries/sparql/sparql-update-3-1-3-2c.sparql 1`] = `
+"PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX dcmitype: <http://purl.org/dc/dcmitype/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+INSERT { GRAPH <http://example/bookStore2> { ?book ?p <http://example.org>. } }
+WHERE {
+  GRAPH <http://example/bookStore> {
+    ?book dc:date ?date.
+    FILTER(?date < \\"2000-01-01T00:00:00-02:00\\"^^xsd:dateTime)
+    ?book ?p <http://example.org>.
+  }
+};
+WITH <http://example/bookStore>
+DELETE { ?book ?p <http://example.org>. }
+WHERE {
+  ?book dc:date ?date;
+    dc:type dcmitype:PhysicalObject.
+  FILTER(?date < \\"2000-01-01T00:00:00-02:00\\"^^xsd:dateTime)
+  ?book ?p <http://example.org>.
+}"
+`;
+
+exports[`sparql-replace > should substitute ./test/fixtures/queries/sparql/sparql-update-3-1-3-3b.sparql 1`] = `
+"PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+DELETE WHERE {
+  GRAPH <http://example.com/names> {
+    <http://example.org> foaf:givenName \\"Fred\\".
+    <http://example.org> ?property1 ?value1.
+  }
+  GRAPH <http://example.com/addresses> { <http://example.org> ?property2 ?value2. }
+}"
+`;
+
+exports[`sparql-replace > should substitute ./test/fixtures/queries/sparql/subquery.sparql 1`] = `"SELECT ?x WHERE { SELECT ?x ?p ?y WHERE { ?x ?p <http://example.org>. } }"`;
+
+exports[`sparql-replace > should substitute ./test/fixtures/queries/sparql/unicode.sparql 1`] = `"SELECT * WHERE { <http://example.org> ?🎁🎀 \\"𓅃 𓃽 𓆟\\". }"`;
+
+exports[`sparql-replace > should substitute ./test/fixtures/queries/sparql/union-complex.sparql 1`] = `
+"PREFIX dbpedia: <http://dbpedia.org/resource/>
+PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>
+SELECT * WHERE {
+  ?city dbpedia-owl:country dbpedia:Belgium.
+  { ?city <http://www.w3.org/2000/01/rdf-schema#label> \\"test\\". }
+  UNION
+  { ?city <http://dbpedia.org/property/commonName> \\"test\\". }
+  UNION
+  { ?city <http://xmlns.com/foaf/0.1/name> \\"test\\". }
+}"
+`;
+
+exports[`sparql-replace > should substitute ./test/fixtures/queries/sparql/using.sparql 1`] = `
+"WITH <urn:one:graph>
+DELETE { ?s <foo:bar> <http://example.org>. }
+USING <urn:another:graph>
+USING NAMED <urn:anamed:graph>
+WHERE { ?s <foo:bar> <http://example.org>. }"
+`;

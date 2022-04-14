@@ -1,0 +1,6 @@
+SELECT * WHERE {
+    ?🎄🎉 ?🎁🎀 "𓅃 𓃽 𓆟"
+}
+
+# replace ?🎄🎉 with example url
+###variables: {"🎄🎉": "<http://example.org>"}

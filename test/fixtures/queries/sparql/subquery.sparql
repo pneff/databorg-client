@@ -1,0 +1,4 @@
+SELECT ?x WHERE { SELECT ?x ?p ?y WHERE { ?x ?p ?y. } }
+
+# replace ?y with example url
+###variables: {"y": "<http://example.org>"}

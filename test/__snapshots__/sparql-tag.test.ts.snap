@@ -1,0 +1,8 @@
+// Vitest Snapshot v1
+
+exports[`sparql > throws an error on malformed query 1`] = `
+"Parse error on line 2:
+...LECT ?s ?p ?o WHERE ?s ?p ?o
+-----------------------^
+Expecting '{', got 'VAR'"
+`;

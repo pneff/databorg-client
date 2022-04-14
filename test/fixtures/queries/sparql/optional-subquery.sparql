@@ -1,0 +1,4 @@
+SELECT * { {} OPTIONAL {SELECT * { ?s ?p ?o }} }
+
+# replace ?o with example url
+###variables: {"o": "<http://example.org>"}

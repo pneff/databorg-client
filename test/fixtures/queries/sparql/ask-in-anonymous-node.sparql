@@ -1,0 +1,6 @@
+BASE <ex:>
+ask { [<>?o]. }
+
+
+# replace ?o with example url
+###variables: {"o": "<http://example.org>"}
