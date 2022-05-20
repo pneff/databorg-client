@@ -284,6 +284,84 @@ Client also provides a way to switch between three different kinds of parsing fo
      ],
    ];
    ```
+4. Parsing `CONSTRUCT` query results using JSON-LD framing:
+
+   ```js
+   const { data, error, loading, reexecuteQuery } = useQuery(
+     `
+   CONSTRUCT {
+     ?uri ?property ?value ;
+       borgwiki:content borgwiki:ContentSeq .
+     
+     borgwiki:ContentSeq a rdf:Seq .
+       borgwiki:ContentSeq ?seqProp ?contentItem .
+   
+     ?contentItem ?contentProp ?contentValue .
+   } WHERE {
+     SELECT ?property ?value ?contentItem ?seqProp ?contentProp ?contentValue WHERE {
+       GRAPH <http://example.org/graph> {
+         ?uri ?property ?value ;
+           borgwiki:content ?mdxSeq .
+   
+         ?mdxSeq a rdf:Seq;
+           ?seqProp ?contentItem .
+   
+         ?contentItem ?contentProp ?contentValue .
+   
+         FILTER(?property != borgwiki:content)
+       }
+     }
+   }`,
+     {
+       variables: {
+         graph: url(graph),
+         uri: url(uri),
+       },
+       options: {
+         // this tells client to use JSON-LD framing
+         frame: {
+           '@type': 'http://www.w3.org/2000/01/rdf-schema#Class',
+           contains: {
+             '@type': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq',
+             contains: {
+               '@type': 'https://wiki.databorg.ai/Content',
+             },
+           },
+         },
+       },
+     }
+   );
+   // will result in following
+   const result = {
+     // prefixes passed from client
+     '@context': {
+       borgwiki: 'https://wiki.databorg.ai/',
+       example: 'http://example.org/',
+       rdfs: 'http://www.w3.org/2000/01/rdf-schema#',
+     },
+     '@id': 'example:resource',
+     '@type': 'rdfs:Class',
+     'borgwiki:direct': 'direct property',
+     'borgwiki:mdx': {
+       '@id': 'borgwiki:MdxSeq',
+       '@type': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq',
+       'http://www.w3.org/1999/02/22-rdf-syntax-ns#_1': {
+         '@id': 'example:mdx1',
+         '@type': 'borgwiki:Mdx',
+         'borgwiki:content': '# Markdown title',
+         'borgwiki:indirect': 'indirect property',
+       },
+       'http://www.w3.org/1999/02/22-rdf-syntax-ns#_2': {
+         '@id': 'example:mdx2',
+         '@type': 'borgwiki:Mdx',
+         'borgwiki:content': '## Another markdown text',
+         'borgwiki:more': 'some more stuff',
+         'borgwiki:otherIndirect': 'other indirect property',
+       },
+     },
+     'rdfs:label': 'Test resource',
+   };
+   ```
 
 ## Exchanges
 

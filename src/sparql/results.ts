@@ -129,8 +129,8 @@ const quadsToString = (quads: Array<any>): Promise<string> => {
 
 export const parseTextResults = async (
   results: string,
-  prefixes: Record<string, string>,
-  frame: object
+  prefixes?: Record<string, string>,
+  frame?: object
 ): Promise<any> => {
   const quads = await turtleToQuads(results);
   const quadString = await quadsToString(quads);
