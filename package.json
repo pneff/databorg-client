@@ -1,6 +1,6 @@
 {
   "name": "@databorg/client",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Highly versatile SPARQL client for modern age",
   "main": "dist/index.js",
   "exports": {
