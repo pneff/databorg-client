@@ -1,5 +1,5 @@
+import { sparql } from '@databorg/client';
 import { describe, expect, it } from 'vitest';
-import { sparql } from '../src/sparql/tag';
 
 describe('sparql', () => {
   it('parses queries', () => {

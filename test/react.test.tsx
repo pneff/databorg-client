@@ -1,13 +1,13 @@
 /**
  * @vitest-environment jsdom
  */
+import { DataborgClient } from '@databorg/client';
+import { DataborgProvider, useQuery, useUpdate } from '@databorg/client/react';
 import { act, renderHook } from '@testing-library/react-hooks';
 import 'isomorphic-unfetch';
 import nock from 'nock';
 import * as React from 'react';
 import { describe, expect, it } from 'vitest';
-import { DataborgClient } from '../src/client';
-import { DataborgProvider, useQuery, useUpdate } from '../src/react';
 import { sparql } from '../src/sparql/tag';
 import {
   dbpediaQueryResponseOne,

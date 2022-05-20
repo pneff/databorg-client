@@ -1,7 +1,7 @@
+import { DataborgClient, url } from '@databorg/client';
 import 'isomorphic-unfetch';
 import nock from 'nock';
 import { describe, expect, it } from 'vitest';
-import { DataborgClient, url } from '../src';
 import {
   constructQueryResponse,
   dbpediaQueryResponseOne,

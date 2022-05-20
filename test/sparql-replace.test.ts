@@ -1,10 +1,9 @@
+import { sparql, url } from '@databorg/client';
 import fs from 'fs';
 import { readFile } from 'fs/promises';
 import { describe, expect, it } from 'vitest';
 import { sparqlQueryToString } from '../src/sparql/parser';
 import { sparqlWithSubstitution } from '../src/sparql/replace';
-import { sparql } from '../src/sparql/tag';
-import { url } from '../src/util/url-tag';
 
 const baseDir = './test/fixtures/queries';
 

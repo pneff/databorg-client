@@ -1,5 +1,5 @@
+import { url } from '@databorg/client';
 import { describe, expect, it } from 'vitest';
-import { url } from '../src/util/url-tag';
 
 describe('url', () => {
   it('parses string to NamedNode', () => {
