@@ -95,14 +95,14 @@ const result = await client.update({
 
 ## React
 
-This section covers how to install and setup `@databorg/client`, as well as query and update data, with React.
+This section covers how to install and setup `@databorg/client/react`, as well as query and update data, with React.
 
 First, setup the client as described [above](#setting-up-the-client).
 Once the client is created, you will need to provide it to your React app via the Context API.
 This may be done with the help of the `DataborgProvider` export.
 
 ```js
-import { DataborgProvider } from '@databorg/client';
+import { DataborgProvider } from '@databorg/client/react';
 
 // wrap your app in a provider
 // this will pass the client to all components
@@ -118,6 +118,8 @@ We see that useQuery accepts query and options, and returns an object with resul
 The object we then get in return contains a result object, an error object, loading state indicator and a re-execute function.
 
 ```js
+import { useQuery } from '@databorg/client/react';
+
 // execute a query
 const MyQueryComponent = () => {
   const { data, error, loading, reexecuteQuery } = useQuery(
@@ -139,7 +141,7 @@ const MyQueryComponent = () => {
 
 ### Updates
 
-`@databorg/client` offers a `useUpdate` hook to execute update queries.
+`@databorg/client/react` offers a `useUpdate` hook to execute update queries.
 
 Contrary to the `useQuery` output, `useUpdate` returns an tuple.
 The first item in the tuple again contains an update function, while second - loading state and error.
@@ -148,6 +150,8 @@ Unlike the `useQuery` hook, the `useUpdate` hook doesn't execute automatically.
 To execute our update we _have_ to call the execute function — `updateResource` in our example — which is the first item in the tuple.
 
 ```js
+import { useUpdate } from '@databorg/client/react';
+
 // execute an update
 const MyUpdateComponent = () => {
   const [updateResource, { loading, error }] = useUpdate(
